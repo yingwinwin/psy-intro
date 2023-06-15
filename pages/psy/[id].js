@@ -11,7 +11,7 @@ export async function getStaticProps({ params }) {
         props: {
             psyData,
         },
-        revalidate: 60,
+        revalidate: 5,
     };
 }
 export async function getStaticPaths() {
