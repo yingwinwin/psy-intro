@@ -18,7 +18,7 @@ export async function getStaticPaths() {
     const paths = await getAllPsyIds();
     return {
         paths,
-        fallback: 'blocking',
+        fallback: true,
     };
 }
 export default function Post({ psyData }) {
