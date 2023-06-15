@@ -2,6 +2,7 @@ import Layout from '../../components/layout';
 import Head from 'next/head';
 import { getAllPsyIds, getPsyPage } from '../../lib/psy';
 import utilStyles from '../../styles/utils.module.css';
+import React from 'react';
 
 
 export async function getStaticProps({ params }) {
@@ -43,7 +44,7 @@ export default function Post({ psyData }) {
                 }
                 table.push(obj)
             }
-            return <Table data={table}/>
+            return <Table data={table} />
         }
         return null
     }
@@ -54,7 +55,7 @@ export default function Post({ psyData }) {
             </Head>
             <div className={utilStyles.detailContent}>
                 {
-                    psyData.blocks.results.map((block) => handleBlocks(block))
+                    psyData.blocks.results.map((block) => <React.Fragment key={block.id}>{handleBlocks(block)}</React.Fragment>)
                 }
             </div>
         </Layout>
@@ -62,7 +63,7 @@ export default function Post({ psyData }) {
 }
 
 const Quote = ({ quote, pages }) => {
-    return <div style={{borderBottom: '1px solid #eaeaea'}}>
+    return <div style={{ borderBottom: '1px solid #eaeaea' }}>
         <div className={utilStyles.quote}>{quote}</div>
         <div style={{ display: 'flex' }}>
             <span className={utilStyles.price}>{pages.price.number}元</span>
@@ -78,21 +79,22 @@ const Heading = ({
     return <div className={utilStyles.title} >{children}</div>
 }
 
-const Table = ({data}) => {
+const Table = ({ data }) => {
     if (data[0].other_title) {
-        return data.map((d, i) => <div key={i} className={utilStyles.intor} >
+        return data.map((d, i) => <div key={d.intor} className={utilStyles.intor} >
             <div>从业{d.work_time}</div>
             {
                 [{
-                   time: d.personal_time,
-                   title: '个案咨询小时数' 
-                },{
+                    time: d.personal_time,
+                    title: '个案咨询小时数'
+                }, {
                     time: d.team_time,
                     title: '团体咨询小时数'
-                }].filter(f => f.time).map(item => <div className={utilStyles.card}>
-                    <span>{item.time}</span>
-                    <span className={utilStyles.cardText}>{item.title}</span>
-                </div>)
+                }].filter(f => f.time).map(item =>
+                    <div className={utilStyles.card}>
+                        <span>{item.time}</span>
+                        <span className={utilStyles.cardText}>{item.title}</span>
+                    </div>)
             }
             <pre>{d.other_title}</pre>
             <div>{d.intor}</div>
@@ -102,10 +104,10 @@ const Table = ({data}) => {
     if (data[0].direction) {
         return <div className={utilStyles.intor}>
             {
-                data.map(d => <>
+                data.map((d, i) => <React.Fragment key={d.direction}>
                     <div className={utilStyles.direction}>{d.direction}</div>
                     <pre>{d.description}</pre>
-                </>)
+                </React.Fragment>)
             }
         </div>
     }
@@ -113,13 +115,13 @@ const Table = ({data}) => {
 
     if (data[0].training_mode) {
         return <div className={utilStyles.intor}>
-        {
-            data.map(d => <>
-                <div className={utilStyles.direction}>{d.training_mode}</div>
-                <pre>{d.content}</pre>
-            </>)
-        }
-    </div>
+            {
+                data.map((d, i) => <React.Fragment key={d.training_mode}>
+                    <div className={utilStyles.direction}>{d.training_mode}</div>
+                    <pre>{d.content}</pre>
+                </React.Fragment>)
+            }
+        </div>
     }
     return null;
 }
