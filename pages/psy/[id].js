@@ -83,7 +83,7 @@ const Heading = ({
 const Table = ({ data }) => {
     if (data[0].other_title) {
         return data.map((d) => <div key={d.intor} className={utilStyles.intor} >
-            <div>从业{d.work_time}</div>
+            {d.work_time && <div>从业{d.work_time}</div>}
             {
                 [{
                     time: d.personal_time,

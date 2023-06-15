@@ -44,7 +44,7 @@
   padding: 0;
   margin: 0;
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
 }
 
 .listItem {
@@ -58,13 +58,14 @@
 }
 .profileImg {
   margin: .2667rem;
-  
   width: 2.4rem;
   height: 2.4rem;
+  display: flex;
+  justify-content: center;
 }
 
 .profileImg > img {
-  width: 100%;
+  height: 100%;
   border-radius: .1333rem;
 }
 
