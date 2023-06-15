@@ -179,3 +179,11 @@
   color: #32394a;
   font-weight: bold;
 }
+
+.add {
+  font-size: .32rem;
+  color: #63636b;
+  position: relative;
+  bottom: .2667rem;
+  margin-left: .1333rem;
+}

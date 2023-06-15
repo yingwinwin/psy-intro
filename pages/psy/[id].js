@@ -11,13 +11,14 @@ export async function getStaticProps({ params }) {
         props: {
             psyData,
         },
+        revalidate: 60,
     };
 }
 export async function getStaticPaths() {
     const paths = await getAllPsyIds();
     return {
         paths,
-        fallback: false,
+        fallback: 'blocking',
     };
 }
 export default function Post({ psyData }) {
@@ -81,7 +82,7 @@ const Heading = ({
 
 const Table = ({ data }) => {
     if (data[0].other_title) {
-        return data.map((d, i) => <div key={d.intor} className={utilStyles.intor} >
+        return data.map((d) => <div key={d.intor} className={utilStyles.intor} >
             <div>从业{d.work_time}</div>
             {
                 [{
@@ -92,7 +93,7 @@ const Table = ({ data }) => {
                     title: '团体咨询小时数'
                 }].filter(f => f.time).map(item =>
                     <div className={utilStyles.card}>
-                        <span>{item.time}</span>
+                        <span>{item.time}<span className={utilStyles.add}>+</span></span>
                         <span className={utilStyles.cardText}>{item.title}</span>
                     </div>)
             }
@@ -104,7 +105,7 @@ const Table = ({ data }) => {
     if (data[0].direction) {
         return <div className={utilStyles.intor}>
             {
-                data.map((d, i) => <React.Fragment key={d.direction}>
+                data.map((d) => <React.Fragment key={d.direction}>
                     <div className={utilStyles.direction}>{d.direction}</div>
                     <pre>{d.description}</pre>
                 </React.Fragment>)
@@ -116,8 +117,8 @@ const Table = ({ data }) => {
     if (data[0].training_mode) {
         return <div className={utilStyles.intor}>
             {
-                data.map((d, i) => <React.Fragment key={d.training_mode}>
-                    <div className={utilStyles.direction}>{d.training_mode}</div>
+                data.map((d) => <React.Fragment key={d.training_mode}>
+                    {d.training_mode && <div className={utilStyles.direction}>{d.training_mode}</div>}
                     <pre>{d.content}</pre>
                 </React.Fragment>)
             }
