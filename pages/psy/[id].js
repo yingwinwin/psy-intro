@@ -11,14 +11,14 @@ export async function getStaticProps({ params }) {
         props: {
             psyData,
         },
-        revalidate: 5,
+        // revalidate: 5,
     };
 }
 export async function getStaticPaths() {
     const paths = await getAllPsyIds();
     return {
         paths,
-        fallback: true,
+        fallback: false,
     };
 }
 export default function Post({ psyData }) {

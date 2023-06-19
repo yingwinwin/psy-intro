@@ -10,7 +10,7 @@ export async function getStaticProps() {
     props: {
       allPsysData,
     },
-    revalidate: 5,
+    // revalidate: 5,
   };
 }
 export default function Home({ allPsysData }) {
