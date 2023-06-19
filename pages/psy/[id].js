@@ -18,29 +18,29 @@ export async function getStaticPaths() {
     const paths = await getAllPsyIds();
     return {
         paths,
-        fallback: false,
+        fallback: true,
     };
 }
 export default function Post({ psyData }) {
 
     const handleBlocks = (block) => {
-        if (block.quote) {
-            const quote = block.quote.rich_text[0].plain_text;
+        if (block?.quote) {
+            const quote = block?.quote?.rich_text?.[0]?.plain_text;
             return <Quote key={block.id} quote={quote} pages={psyData.pages.properties} />
         }
 
-        if (block.heading_2) {
-            const heading_2 = block.heading_2.rich_text[0].plain_text;
+        if (block?.heading_2) {
+            const heading_2 = block?.heading_2?.rich_text?.[0]?.plain_text;
             return <Heading>{heading_2}</Heading>
         }
 
-        if (block.table) {
-            const columns = psyData.tables[block.id].results.map(table => table.table_row.cells).map(cell => cell.map(c => c[0] || {}));
+        if (block?.table) {
+            const columns = psyData?.tables?.[block?.id]?.results?.map(table => table?.table_row?.cells)?.map(cell => cell?.map(c => c[0] || {}));
             const table = [];
-            const texts = columns.map(col => col.map(c => c.plain_text))
-            for (let i = 1; i < texts.length; i++) {
+            const texts = columns?.map(col => col.map(c => c.plain_text))
+            for (let i = 1; i < texts?.length; i++) {
                 let obj = {}
-                for (let j = 0; j < texts[0].length; j++) {
+                for (let j = 0; j < texts?.[0].length; j++) {
                     obj[texts[0][j]] = texts[i][j]
                 }
                 table.push(obj)
@@ -56,7 +56,7 @@ export default function Post({ psyData }) {
             </Head>
             <div className={utilStyles.detailContent}>
                 {
-                    psyData.blocks.results.map((block) => <React.Fragment key={block.id}>{handleBlocks(block)}</React.Fragment>)
+                    psyData?.blocks?.results?.map((block) => <React.Fragment key={block?.id}>{handleBlocks(block)}</React.Fragment>)
                 }
             </div>
         </Layout>
@@ -67,10 +67,10 @@ const Quote = ({ quote, pages }) => {
     return <div style={{ borderBottom: '1px solid #eaeaea' }}>
         <div className={utilStyles.quote}>{quote}</div>
         <div style={{ display: 'flex' }}>
-            <span className={utilStyles.price}>{pages.price.number}元</span>
+            <span className={utilStyles.price}>{pages?.price.number}元</span>
             <span className={utilStyles.time}>/50分钟</span>
         </div>
-        <div className={utilStyles.tags}>{pages.psyTags.multi_select.map(tag => tag.name).join('/')}</div>
+        <div className={utilStyles.tags}>{pages?.psyTags.multi_select.map(tag => tag.name).join('/')}</div>
     </div>
 }
 
